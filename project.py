@@ -1,5 +1,5 @@
 def wordsfroms(s):
-	sep = ' ,:".!?\n'
+	sep = ' ,:".!?\n-'
 	s += " "
 	word = ""
 	w = []
@@ -12,9 +12,9 @@ def wordsfroms(s):
 			word = ""
 	return w
 
-
-with open("test.txt", "r") as f:
-	sep = [".", "!", "?"]
+bookname = input()
+with open(bookname, "r") as f:
+	sep = ['.', '!', '?', '”', '“']
 	sentences = []
 	sen = ""
 	for x in f.read():
@@ -24,12 +24,8 @@ with open("test.txt", "r") as f:
 			if sen != "":
 				sentences.append(sen)
 			sen = ""
-	a = []
 	for x in sentences:
-		s = wordsfroms(x)
-		for y in s:
-			a.append(y)
-	print(a)
+		print(x)
 	m = set("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 	characters = []
 	for x in sentences:

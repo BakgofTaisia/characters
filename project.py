@@ -14,11 +14,23 @@ def wordsfroms(s):
 
 
 with open("test.txt", "r") as f:
-	m = set("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-	ch = []
-	for line in f:
-		a = wordsfroms(line)
-		for x in a:
-			if x[0] in m:
-				ch.append(x)
-print(*ch)
+	sep = [".", "!", "?"]
+	sentences = []
+	sen = ""
+	for x in f.read():
+		if x not in sep:
+			sen += x
+		else:
+			if sen != "":
+				sentences.append(sen)
+			sen = ""
+m = set("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+characters = []
+for x in sentences:
+	s = wordsfroms(x)
+	for i in range(len(s)):
+		if s[i][0] in m and i != 0:
+			characters.append(s[i])
+print(*characters)
+
+

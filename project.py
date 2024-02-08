@@ -1,5 +1,5 @@
 def wordsfroms(s):
-	sep = ' ,:".!?'
+	sep = ' ,:".!?\n'
 	s += " "
 	word = ""
 	w = []
@@ -24,13 +24,19 @@ with open("test.txt", "r") as f:
 			if sen != "":
 				sentences.append(sen)
 			sen = ""
-m = set("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-characters = []
-for x in sentences:
-	s = wordsfroms(x)
-	for i in range(len(s)):
-		if s[i][0] in m and i != 0:
-			characters.append(s[i])
-print(*characters)
+	a = []
+	for x in sentences:
+		s = wordsfroms(x)
+		for y in s:
+			a.append(y)
+	print(a)
+	m = set("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+	characters = []
+	for x in sentences:
+		s = wordsfroms(x)
+		for i in range(len(s)):
+			if s[i][0] in m and i != 0 and s[i] not in characters:
+				characters.append(s[i])
+	print(*characters)
 
 

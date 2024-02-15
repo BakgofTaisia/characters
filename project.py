@@ -24,15 +24,17 @@ with open(bookname, "r") as f:
 			if sen != "":
 				sentences.append(sen)
 			sen = ""
-	for x in sentences:
-		print(x)
 	m = set("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-	characters = []
+	characters = {}
 	for x in sentences:
 		s = wordsfroms(x)
 		for i in range(len(s)):
-			if s[i][0] in m and i != 0 and s[i] not in characters:
-				characters.append(s[i])
-	print(*characters)
+			if s[i][0] in m and i != 0:
+				if s[i] not in characters:
+					characters[s[i]] = 1
+				else:
+					characters[s[i]] += 1
+	for x in characters:
+		print(x, "-", characters[x])
 
 

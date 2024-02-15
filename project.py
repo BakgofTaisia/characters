@@ -12,6 +12,15 @@ def wordsfroms(s):
 			word = ""
 	return w
 
+
+def checkapo(x):
+	if  "’" in x:
+		for i in range(len(x)):
+			if x[i] == "’":
+				x = x[:i]
+				break
+	return x
+
 bookname = input()
 with open(bookname, "r") as f:
 	sep = ['.', '!', '?', '”', '“']
@@ -29,11 +38,12 @@ with open(bookname, "r") as f:
 	for x in sentences:
 		s = wordsfroms(x)
 		for i in range(len(s)):
-			if s[i][0] in m and i != 0:
-				if s[i] not in characters:
-					characters[s[i]] = 1
+			k = checkapo(s[i])
+			if k[0] in m and i != 0:
+				if k not in characters:
+					characters[k] = 1
 				else:
-					characters[s[i]] += 1
+					characters[k] += 1
 	for x in characters:
 		print(x, "-", characters[x])
 

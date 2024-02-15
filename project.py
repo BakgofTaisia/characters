@@ -1,5 +1,5 @@
 def wordsfroms(s):
-	sep = ' ,:".!?\n-'
+	sep = ' ,:".!;?\n-'
 	s += " "
 	word = ""
 	w = []
@@ -21,6 +21,13 @@ def checkapo(x):
 				break
 	return x
 
+
+def get_stopwords():
+	with open("stopwords.txt") as f:
+		return {word.strip() for word in f.readlines()}
+
+stopwords = get_stopwords()	
+print(stopwords)			 
 bookname = input()
 with open(bookname, "r") as f:
 	sep = ['.', '!', '?', '”', '“']
@@ -39,12 +46,12 @@ with open(bookname, "r") as f:
 		s = wordsfroms(x)
 		for i in range(len(s)):
 			k = checkapo(s[i])
-			if k[0] in m and i != 0:
+			if k and k[0] in m and i != 0 and k.lower() not in stopwords:
 				if k not in characters:
 					characters[k] = 1
 				else:
 					characters[k] += 1
 	for x in characters:
-		print(x, "-", characters[x])
+			print(x, "-", characters[x])
 
 

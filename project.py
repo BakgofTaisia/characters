@@ -55,7 +55,7 @@ with open(bookname, "r") as f:
 		if x[-1] == "s" and x[:-1] in characters:
 			characters[x[:-1]] += characters[x]
 			a.append(x)
-		elif characters[x] <= 10:
+		elif characters[x] <= 0:
 			a.append(x)
 	for x in a:
 		characters.pop(x)
@@ -67,21 +67,22 @@ with open(bookname, "r") as f:
 			if word in characters:
 				m.add(word)
 		for ch in m:
-			if len(m) > 1:
-				if ch not in meatings:
-					meatings[ch] = m
-				else:
-					meatings[ch] |= m
-for x in meatings:
-	meatings[x].remove(x)
-k = 0
-for x in meatings:
-	print(x, ":")
-	for y in meatings[x]:
-		print("    ", y)
-	k += 1
-	if k > 3:
-		break
+			m1 = m.copy()
+			m1.remove(ch)
+			if ch not in meatings.keys():
+				meatings[ch] = m1
+			else:
+				meatings[ch] |= m1
+	k = -1000
+	for x in meatings:
+		print(x, ":")
+		for y in meatings[x]:
+			print("    ", y)
+		k += 1
+		if k > 4:
+			break
+
+
 
 
 

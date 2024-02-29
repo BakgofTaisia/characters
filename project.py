@@ -1,5 +1,5 @@
 def wordsfroms(s):
-	sep = ' ,:".!;?\n-'
+	sep = ' ,:-"—.!;…?\n'
 	s += " "
 	word = ""
 	w = []
@@ -25,6 +25,32 @@ def checkapo(x):
 def get_stopwords():
 	with open("stopwords.txt") as f:
 		return {word.strip() for word in f.readlines()}
+	
+
+def get_characters(sentences):
+	stopwords = get_stopwords()	
+	m = set("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+	characters = {}
+	for x in sentences:
+		s = wordsfroms(x)
+		for i in range(len(s)):
+			k = checkapo(s[i])
+			if k and k[0] in m and i != 0 and k.lower() not in stopwords:
+				if k not in characters:
+					characters[k] = 1
+				else:
+					characters[k] += 1
+	a = []
+	for x in characters:
+		if x[-1] == "s" and x[:-1] in characters:
+			characters[x[:-1]] += characters[x]
+			a.append(x)
+		elif characters[x] <= 10:
+			a.append(x)
+	for x in a:
+		characters.pop(x)
+	return characters
+
 
 stopwords = get_stopwords()			 
 bookname = input()
@@ -39,6 +65,8 @@ with open(bookname, "r") as f:
 			if sen != "":
 				sentences.append(sen)
 			sen = ""
+	characters = get_characters(sentences)
+	print(characters)
 	m = set("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 	characters = {}
 	for x in sentences:
@@ -47,7 +75,7 @@ with open(bookname, "r") as f:
 			k = checkapo(s[i])
 			if k and k[0] in m and i != 0 and k.lower() not in stopwords:
 				if k not in characters:
-						characters[k] = 1
+					characters[k] = 1
 				else:
 					characters[k] += 1
 	a = []
@@ -55,11 +83,13 @@ with open(bookname, "r") as f:
 		if x[-1] == "s" and x[:-1] in characters:
 			characters[x[:-1]] += characters[x]
 			a.append(x)
-		elif characters[x] <= 0:
+		elif characters[x] <= 10:
 			a.append(x)
 	for x in a:
 		characters.pop(x)
-	meatings = {}
+	print()
+	print(characters)
+	meetings = {}
 	for x in sentences:
 		m = set()
 		s = wordsfroms(x)
@@ -69,19 +99,18 @@ with open(bookname, "r") as f:
 		for ch in m:
 			m1 = m.copy()
 			m1.remove(ch)
-			if ch not in meatings.keys():
-				meatings[ch] = m1
+			if ch not in meetings.keys():
+				meetings[ch] = m1
 			else:
-				meatings[ch] |= m1
-	k = -1000
-	for x in meatings:
-		print(x, ":")
-		for y in meatings[x]:
-			print("    ", y)
+				meetings[ch] |= m1
+	k = 0
+	for x in meetings:
 		k += 1
+		print(x, ":")
+		for y in meetings[x]:
+			print("    ", y)
 		if k > 4:
 			break
-
 
 
 

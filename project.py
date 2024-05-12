@@ -1,3 +1,7 @@
+from pyvis.network import Network
+net = Network()
+
+
 def wordsfroms(s):
 	sep = ' ,:-"—.!;…?\n'
 	s += " "
@@ -41,7 +45,7 @@ def get_characters(sentences):
 				else:
 					characters[k] += 1
 	a = []
-	mincount = 100
+	mincount = 10
 	for x in characters:
 		if x[-1] == "s" and x[:-1] in characters:
 			characters[x[:-1]] += characters[x]
@@ -53,7 +57,7 @@ def get_characters(sentences):
 	return characters
 
 			 
-bookname = input()
+bookname = "Harry Potter.txt"
 with open(bookname, "r") as f:
 	sep = ['.', '!', '?', '”', '“']
 	sentences = []
@@ -84,11 +88,35 @@ with open(bookname, "r") as f:
 				else:
 					meetings[n1][nx] += 1
 	k = 0
+	flag = False
 	for x in meetings:
+		if not flag or len(meetings[x]) > lmx:
+			lmx = len(meetings[x])
+			mx = x
+			flag = True
 		k += 1
 		print(x, ":")
 		for y in meetings[x]:
 			print("    ", y, "-", meetings[x][y])
+	character_to_idx = {}
+	for idx, character in enumerate(meetings):
+		character_to_idx[character] = idx
+		if character == mx:
+			net.add_node(idx, label=character, color = "#F36868", title = character)
+		elif len(meetings[character]) > 12 and character != mx:
+			net.add_node(idx, label=character, color = "#A1F5A1", title = character)
+		else:
+			net.add_node(idx, label=character, color = "#BEB7F7", title = character)
+	
+	for character in meetings:
+		for other in meetings[character]:
+			net.add_edge(character_to_idx[character], character_to_idx[other], weight=meetings[character][other])
+	net.show_buttons(filter_=['physics'])
+	net.show("visual.html")
+
+
+	
+	
 		
 
 

@@ -57,7 +57,7 @@ def get_characters(sentences):
 	return characters
 
 			 
-bookname = "Harry Potter.txt"
+bookname = input()
 with open(bookname, "r") as f:
 	sep = ['.', '!', '?', '”', '“']
 	sentences = []
@@ -110,16 +110,9 @@ with open(bookname, "r") as f:
 	
 	for character in meetings:
 		for other in meetings[character]:
-			net.add_edge(character_to_idx[character], character_to_idx[other], weight=meetings[character][other])
+			if meetings[character][other] > 2:
+				net.add_edge(character_to_idx[character], character_to_idx[other], title = meetings[character][other])
 	net.show_buttons(filter_=['physics'])
-	net.show("visual.html")
-
-
+	s = bookname + ".html"
+	net.show(s)
 	
-	
-		
-
-
-
-
-
